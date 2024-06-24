@@ -24,6 +24,6 @@ import React from 'react'
 
 export default function products() {
   return (
-    <div>products</div>
+    <div>This is products page</div>
   )
 }

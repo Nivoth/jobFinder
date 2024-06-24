@@ -25,8 +25,6 @@ function App() {
   } , [])
 
   //todo : handle click
-
-
   function handleClick(product){
     navigate('/product-detail' , {state : {product}})
   }

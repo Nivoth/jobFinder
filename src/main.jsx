@@ -9,7 +9,7 @@ import Service from "./pages/service/Service.jsx";
 import Layout from "./components/layout/Layout.jsx";
 import Register from "./pages/auth/Register.jsx";
 import { Provider } from "react-redux";
-import { store } from "./redux/store/store";
+import { store } from "./redux/store";
 import Products from "./pages/products/Products.jsx";
 import ProductDetail from "./pages/product-detail/ProductDetail.jsx";
 import Cart from "./pages/cart/Cart.jsx";
