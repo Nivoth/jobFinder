@@ -1,164 +1,209 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/;
-const valitionSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email!!").required("Email is required"),
-  first_name: Yup.string().required("First Name is required"),
-  last_name : Yup.string().required("Last Name is required"),
-  password1: Yup.string().matches(
-    passwordRegex,"Password must contain at least 6 characters, including UPPER/lowercase and numbers"
-  )
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify"; // Import toast
+import {
+  fetchCreateUser,
+  selectStatus,
+  selectError,
+} from "../../redux/features/Users/userSlice";
+import { HiCheckCircle, HiInformationCircle } from "react-icons/hi";
+
+// Validation Schema
+const validationSchema = Yup.object().shape({
+  username: Yup.string().required("Username is required"),
+  email: Yup.string().email("Invalid email!").required("Email is required"),
+  password: Yup.string()
+    .matches(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/,
+      "Password must contain at least 6 characters, including UPPER/lowercase and numbers"
+    )
     .required("Password is required"),
-  password2: Yup.string()
-    .oneOf([Yup.ref("password1"), null], "Password must match!!")
-    .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match!")
+    .required("Confirm Password is required"),
+  terms: Yup.bool().oneOf([true], "You must accept the Terms and Conditions"),
 });
+
+// Initial Values
+const initialValues = {
+  username: "",
+  email: "",
+  password: "Qwert@123",
+  confirmPassword: "Qwert@123",
+  terms: false,
+};
+
 export default function Register() {
+  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const status = useSelector(selectStatus);
+  const error = useSelector(selectError);
+
+  // Handle registration status
+  useEffect(() => {
+    if (status === "succeeded") {
+      toast.success("Registration successful!"); // Show success toast
+      navigate("/otpverification", { state: { email } });
+    } else if (status === "failed") {
+      toast.error(error || "Failed to register. Please try again."); // Show error toast
+    }
+  }, [status, navigate, email, error]);
+
+  // Handle email change
+  const handleGetEmail = (e, setFieldValue) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+    setFieldValue("email", emailValue);
+  };
+
   return (
     <section className="flex justify-center items-center h-screen">
       <Formik
-        initialValues={{
-          email: "",
-          first_name: "",
-          last_name: "",
-          password1: "",
-          password2: "",
-        }}
-        validationSchema={valitionSchema}
-        onSubmit={(values, { setSubmitting , resetForm }) => {
-          setSubmitting(false);
-          resetForm();
-          console.log(values);
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values, { resetForm }) => {
+          dispatch(fetchCreateUser(values));
+          resetForm(); // Reset form after submission
         }}
       >
-        {({ isSubmitting }) =>{
-          console.log("isSubmitting",isSubmitting);
-          return (
-            <Form className="w-1/2 bg-slate-100 p-10 rounded-lg">
-              <h1 className="text-2xl text-blue-800 font-semibold text-center">
-                Register
+        {({ isSubmitting, setFieldValue }) => (
+          <Form className="max-w-md w-full border border-gray-300 rounded-2xl p-8 mx-4 relative">
+            <div className="text-center mb-12">
+              <h1 className="text-4xl font-sans font-bold">
+                J<span className="text-[#72B261]">o</span>bNest
               </h1>
-              {/* Email */}
-              <div className="mt-5">
+            </div>
+
+            <div className="space-y-6">
+              {/* Username Field */}
+              <div>
+                <label
+                  htmlFor="username"
+                  className="text-gray-800 text-sm mb-2 block"
+                >
+                  Username
+                </label>
+                <Field
+                  type="text"
+                  id="username"
+                  name="username"
+                  className="border-gray-300 focus:border-[#72B261] focus:ring-[#72B261] text-sm w-full rounded-lg shadow-sm"
+                />
+                <ErrorMessage
+                  name="username"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              {/* Email Field */}
+              <div>
                 <label
                   htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="text-gray-800 text-sm mb-2 block"
                 >
-                  Enter Email <span className="text-red-600">*</span>
+                  Email
                 </label>
                 <Field
                   type="email"
                   id="email"
                   name="email"
-                  placeholder="Enter Email"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="border-gray-300 focus:border-[#72B261] focus:ring-[#72B261] text-sm w-full rounded-lg shadow-sm"
+                  onChange={(e) => handleGetEmail(e, setFieldValue)}
                 />
-                <ErrorMessage name="email">
-                  {(msg) => <div className="text-red-600 text-sm">{msg}</div>}
-                </ErrorMessage>
-              </div>
-              {/* first name */}
-              <div className="mt-5">
-                <label
-                  htmlFor="first_name"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Enter First Name<span className="text-red-600">*</span>
-                </label>
-                <Field
-                  type="text"
-                  id="first_name"
-                  name="first_name"
-                  placeholder="First Name"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-red-500 text-sm"
                 />
-                <ErrorMessage name="first_name">
-                  {(msg) => <div className="text-red-600 text-sm">{msg}</div>}
-                </ErrorMessage>
               </div>
-              {/* last name */}
-              <div className="mt-5">
+
+              {/* Password Field */}
+              <div>
                 <label
-                  htmlFor="last_name"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="password"
+                  className="text-gray-800 text-sm mb-2 block"
                 >
-                  Enter Last Name<span className="text-red-600">*</span>
-                </label>
-                <Field
-                  type="text"
-                  id="last_name"
-                  name="last_name"
-                  placeholder="Last Name"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-                <ErrorMessage name="last_name">
-                  {(msg) => <div className="text-red-500 text-sm">{msg}</div>}
-                </ErrorMessage>
-              </div>
-              {/* password */}
-              <div className="mt-5">
-                <label
-                  htmlFor="password1"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Enter Password <span className="text-red-600">*</span>
+                  Password
                 </label>
                 <Field
                   type="password"
-                  id="password1"
-                  name="password1"
-                  placeholder="Password"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  id="password"
+                  name="password"
+                  className="border-gray-300 focus:border-[#72B261] focus:ring-[#72B261] text-sm w-full rounded-lg shadow-sm"
                 />
-                <ErrorMessage name="password1">
-                  {(msg) => <div className="text-red-500 text-sm">{msg}</div>}
-                </ErrorMessage>
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
-              {/* confirm password */}
-              <div className="mt-5">
+
+              {/* Confirm Password Field */}
+              <div>
                 <label
-                  htmlFor="password2"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="confirmPassword"
+                  className="text-gray-800 text-sm mb-2 block"
                 >
-                  Enter Confirm Password <span className="text-red-600">*</span>
+                  Confirm Password
                 </label>
                 <Field
                   type="password"
-                  id="password2"
-                  name="password2"
-                  placeholder="Confirm Password"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  className="border-gray-300 focus:border-[#72B261] focus:ring-[#72B261] text-sm w-full rounded-lg shadow-sm"
                 />
-                <ErrorMessage name="password2">
-                  {(msg) => <div className="text-red-500 text-sm">{msg}</div>}
-                </ErrorMessage>
+                <ErrorMessage
+                  name="confirmPassword"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
-              {/* disable btn */}
-              {
-                
-                isSubmitting ?<div className="flex justify-end mt-5">
-                  <button
-                  type="button"
-                  className=" text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                  disabled
-                >
-                  Disabled button
-                </button>
-                  </div>
-                :
-              <div className="mt-5 flex justify-end">
+
+              {/* Terms and Conditions Checkbox */}
+              <div className="flex items-center">
+                <Field
+                  type="checkbox"
+                  id="terms"
+                  name="terms"
+                  className="text-[#72B261] rounded"
+                />
+                <label htmlFor="terms" className="ml-2 text-gray-800 text-sm">
+                  I accept the{" "}
+                  <a href="#" className="text-[#72B261] hover:underline focus:ring-[#72B261] focus:border-transparent">
+                    Terms and Conditions
+                  </a>
+                </label>
+                <ErrorMessage
+                  name="terms"
+                  component="div"
+                  className="text-red-500 text-sm ml-2"
+                />
+              </div>
+
+              {/* Submit Button */}
               <button
                 type="submit"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                disabled={isSubmitting}
+                className="w-full py-2 text-sm text-white bg-[#72B261] hover:bg-[#83B348] rounded-lg"
               >
-                Submit
+                Register
               </button>
+
+              {/* Login Link */}
+              <p className="text-center text-sm text-gray-500 mt-4">
+                Already have an account?{" "}
+                <Link to="/login" className="text-[#72B261] hover:underline">
+                  Login
+                </Link>
+              </p>
             </div>
-              }
-            </Form>
-          );
-        }}
+          </Form>
+        )}
       </Formik>
     </section>
   );

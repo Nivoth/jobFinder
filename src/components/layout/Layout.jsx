@@ -1,13 +1,19 @@
-import React from 'react'
-import NavbarComponent from '../NavbarComponent'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import NavbarComponent from "../NavbarComponent";
+import { Outlet } from "react-router-dom";
+import FooterComponent from "../common/footer/FooterComponent";
 export default function Layout() {
   return (
-    <>
-    <NavbarComponent/>
-    <main className="max-w-screen-xl mx-auto">
-        <Outlet/>
-    </main>
-    </>
-  )
+    <div>
+      <nav className="sticky top-0 z-50">
+        <NavbarComponent />
+      </nav>
+      <main className="mx-auto ">
+        <Outlet />
+      </main>
+      <footer className="w-full bg-[#183444] ">
+        <FooterComponent />
+      </footer>
+    </div>
+  );
 }

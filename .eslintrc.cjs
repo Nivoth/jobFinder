@@ -19,6 +19,10 @@ module.exports = {
     ],
     "no-undef" : "off",
     "react/prop-types" : "off",
-    "no-unused-vars" : "off"
+    "no-unused-vars" : "off",
+    "react/no-unescaped-entities" : "off",
+    "react/jsx-no-undef" : "off",
+    "duplicate-imports": "off",
+    "react-hooks/rules-of-hooks": "off",
   },
 }
