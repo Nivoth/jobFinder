@@ -12,7 +12,6 @@ import Register from "./pages/auth/Register.jsx";
 import OtpVerification from "./pages/auth/OptVerification.jsx";
 import UserProfile from "./components/UserProfile.jsx";
 import CardDetailComponent from "./components/common/cards/CardDetailComponent.jsx";
-import ChangePWD from "./components/ChangePWD.jsx";
 import SetNewPassword from "./components/chaangePwd/SetNewPassword.jsx";
 import RequestPasswordReset from "./components/chaangePwd/RequestPasswordReset.jsx";
 import "./index.css";
@@ -20,7 +19,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "tailwindcss/tailwind.css";
 import MySaveJobs from "./components/MySaveJobs.jsx";
 import Jobs from "./pages/Find-Jobs/Jobs.jsx";
-import LoadingCards from "./components/common/cards/LoadingCards.jsx";
 import FilterSelection from "./pages/Find-Jobs/Meterial/FilterSelection.jsx";
 import Dashboard from "../src/pages/dashboard/Dashboard.jsx";
 

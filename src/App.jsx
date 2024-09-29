@@ -16,7 +16,7 @@ import {
   selectError,
 } from "../src/redux/features/Cards/CardSlice.js";
 import FeatureSlide from "./components/common/Feature-slice/FeatureSlide.jsx";
-import BenefitSection from "./components/common/Benefits-Section/benefitSection.jsx";
+import BenefitSection from "../src/components/common/Benefit-section/BenefitSection.jsx";
 
 function App() {
   const dispatch = useDispatch();
