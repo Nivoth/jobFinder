@@ -13,7 +13,7 @@ const initialState = {
 
 // Async thunk for fetching jobs from your API
 export const fetchJobs = createAsyncThunk("jobs/fetchJobs", async () => {
-  const response = await fetch(`${BASE_URL}/jobs/`);
+  const response = await fetch(`${BASE_URL}jobs/`);
  // console.log("Response Status:", response.status); // Log status
   if (!response.ok) {
     const errorMessage = await response.text();

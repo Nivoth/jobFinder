@@ -14,7 +14,7 @@ export const fetchListApplied = createAsyncThunk(
   "ApplyJob/fetchListApplied",
   async () => {
     const token = getAccessToken();
-    const response = await fetch(`${BASE_URL}/applied_jobs/`, {
+    const response = await fetch(`${BASE_URL}applied_jobs/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +34,7 @@ export const applyForJob = createAsyncThunk(
   "ApplyJob/applyForJob",
   async (formData) => {
     const token = getAccessToken();
-    const response = await fetch(`${BASE_URL}/applied_jobs/`, {
+    const response = await fetch(`${BASE_URL}applied_jobs/`, {
       method: "POST", // Use POST to apply for a job
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -53,7 +53,7 @@ export const fetchDeleteApplied = createAsyncThunk(
   "ApplyJob/fetchDeleteApplied",
   async (id) => {
     const token = getAccessToken();
-    const response = await fetch(`${BASE_URL}/applied_jobs/${id}/`, {
+    const response = await fetch(`${BASE_URL}applied_jobs/${id}/`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
