@@ -22,7 +22,7 @@ import MySaveJobs from "./components/MySaveJobs.jsx";
 import Jobs from "./pages/Find-Jobs/Jobs.jsx";
 import LoadingCards from "./components/common/cards/LoadingCards.jsx";
 import FilterSelection from "./pages/Find-Jobs/Meterial/FilterSelection.jsx";
-import Dashboard from "./pages/dashboard/DashBoard.jsx";
+import Dashboard from "../src/pages/dashboard/Dashboard.jsx";
 
 // Define the routes
 const router = createBrowserRouter([
