@@ -7,7 +7,7 @@ export default function HeroSectionComponent({ isAuthenticated }) {
     <div className="relative bg-gray-900 bg-opacity-100 py-24 md:py-32 lg:py-40 min-h-[60vh]">
       <div className="absolute inset-0">
         <img
-          src="/src/assets/hero.jpg"
+          src="./src/assets/hero.jpg"
           alt="Background Image"
           className="w-full h-full object-cover opacity-50"
         />
