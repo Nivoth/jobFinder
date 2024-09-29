@@ -29,7 +29,7 @@ const handleResponse = async (response) => {
 export const fetchCreateUser = createAsyncThunk(
   "user/fetchCreateUser",
   async (userData) => {
-    const response = await fetch(`${BASE_URL}/register/`, {
+    const response = await fetch(`${BASE_URL}register/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),
@@ -41,7 +41,7 @@ export const fetchCreateUser = createAsyncThunk(
 export const fetchOtpVerification = createAsyncThunk(
   "user/fetchOtpVerification",
   async ({ email, otp_code }) => {
-    const response = await fetch(`${BASE_URL}/verify-otp/`, {
+    const response = await fetch(`${BASE_URL}verify-otp/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, otp_code }),
@@ -51,7 +51,7 @@ export const fetchOtpVerification = createAsyncThunk(
 );
 
 export const resendOtp = createAsyncThunk("user/resendOtp", async (email) => {
-  const response = await fetch(`${BASE_URL}/resend-otp/`, {
+  const response = await fetch(`${BASE_URL}resend-otp/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
@@ -77,7 +77,7 @@ export const fetchUserProfile = createAsyncThunk(
   "user/fetchUserProfile",
   async () => {
     const token = getAccessToken();
-    const response = await fetch(`${BASE_URL}/profile/`, {
+    const response = await fetch(`${BASE_URL}profile/`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -92,7 +92,7 @@ export const updateUserProfile = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     const token = getAccessToken();
     try {
-      const response = await fetch(`${BASE_URL}/profile/`, {
+      const response = await fetch(`${BASE_URL}profile/`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -115,7 +115,7 @@ export const uploadAvatar = createAsyncThunk(
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch(`${BASE_URL}/upload/`, {
+    const response = await fetch(`${BASE_URL}upload/`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
