@@ -1,13 +1,13 @@
-// HeroSectionComponent.jsx
 import React from "react";
 import { Link } from "react-router-dom";
+import heroImage from "/src/assets/hero.jpg"; // Importing the background image
 
 export default function HeroSectionComponent({ isAuthenticated }) {
   return (
     <div className="relative bg-gray-900 bg-opacity-100 py-24 md:py-32 lg:py-40 min-h-[60vh]">
       <div className="absolute inset-0">
         <img
-          src="./src/assets/hero.jpg"
+          src={heroImage} // Using the imported image
           alt="Background Image"
           className="w-full h-full object-cover opacity-50"
         />
@@ -27,7 +27,9 @@ export default function HeroSectionComponent({ isAuthenticated }) {
             type="button"
             className="hover:bg-[#83B348] text-white text-base tracking-wide px-6 py-3 rounded-[5px] transition border duration-300 ease-in-out shadow-lg hover:shadow-xl"
           >
-            {isAuthenticated ? "Find your dream job now!" : "Find your dream job now!"}
+            {isAuthenticated
+              ? "Find your dream job now!"
+              : "Find your dream job now!"}
           </button>
         </Link>
       </div>

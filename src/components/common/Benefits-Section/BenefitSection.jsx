@@ -1,5 +1,6 @@
 import React from "react";
 import { FaUsers, FaThumbsUp, FaUserTie } from "react-icons/fa";
+import interviewImage from "/src/assets/online-interview.png"; // Importing the image
 
 export default function BenefitSection() {
   return (
@@ -61,7 +62,7 @@ export default function BenefitSection() {
         <div className="h-[250px] sm:h-[300px] md:h-[300px] flex justify-center items-center mt-4 md:mt-0">
           <img
             className="w-full h-full object-contain md:object-cover rounded-lg"
-            src="./src/assets/online-interview.png"
+            src={interviewImage} // Using the imported image
             alt="Online Interview"
           />
         </div>
