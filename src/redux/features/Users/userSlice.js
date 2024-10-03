@@ -115,7 +115,7 @@ export const uploadAvatar = createAsyncThunk(
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch(`${BASE_URL}upload/`, {
+    const response = await fetch(`https://jobfinder.automatex.dev/api/upload/`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
