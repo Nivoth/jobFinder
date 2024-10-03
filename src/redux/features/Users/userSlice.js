@@ -63,7 +63,7 @@ export const fetchLogin = createAsyncThunk(
   "user/fetchLogin",
   async ({ email, password }, { rejectWithValue }) => {
     const response = await fetch(`${apiUrl}login/`, {
-      method: "POST",
+      method: "GET",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
