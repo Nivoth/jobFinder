@@ -65,7 +65,7 @@ export const fetchLogin = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       // Make the POST request to the login endpoint
-      const response = await fetch(`${apiUrl}login/`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}login/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
