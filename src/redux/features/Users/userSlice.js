@@ -63,15 +63,19 @@ export const resendOtp = createAsyncThunk("user/resendOtp", async (email) => {
 export const fetchLogin = createAsyncThunk(
   "user/fetchLogin",
   async ({ email, password }, { rejectWithValue }) => {
-    const response = await fetch(`${apiUrl}login/`, {
-       
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    return handleResponse(response).catch((error) =>
-      rejectWithValue(error.message)
-    );
+    try {
+      // Make the POST request to the login endpoint
+      const response = await fetch(`${apiUrl}login/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      // Handle the response
+      return await handleResponse(response);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
 
