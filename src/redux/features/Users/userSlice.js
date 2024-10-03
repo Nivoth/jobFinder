@@ -63,7 +63,7 @@ export const resendOtp = createAsyncThunk("user/resendOtp", async (email) => {
 export const fetchLogin = createAsyncThunk(
   "user/fetchLogin",
   async ({ email, password }, { rejectWithValue }) => {
-    const response = await fetch(`https://jobfinder.automatex.dev/api/login/`, {
+    const response = await fetch(`${apiUrl}login/`, {
        
       method: "POST",
       headers: { "Content-Type": "application/json" },
