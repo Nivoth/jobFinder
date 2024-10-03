@@ -80,7 +80,7 @@ export default function UserProfile() {
     formData.append("file", file);
 
     try {
-      const response = await fetch(`${BASE_URL}/upload/`, {
+      const response = await fetch(`${BASE_URL}upload/`, {
         method: "POST",
         body: formData,
       });
