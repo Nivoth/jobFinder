@@ -15,7 +15,7 @@ const initialState = {
   error: null,
   accessToken: null,
 };
-
+const apiUrl = import.meta.env.VITE_BASE_URL; 
 // Generic response handler utility
 const handleResponse = async (response) => {
   if (!response.ok) {
@@ -62,7 +62,7 @@ export const resendOtp = createAsyncThunk("user/resendOtp", async (email) => {
 export const fetchLogin = createAsyncThunk(
   "user/fetchLogin",
   async ({ email, password }, { rejectWithValue }) => {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}login/`, {
+    const response = await fetch(`${apiUrl}login/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
