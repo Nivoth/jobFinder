@@ -15,7 +15,7 @@ const initialState = {
   error: null,
   accessToken: null,
 };
-const apiUrl = import.meta.env.VITE_BASE_URL; 
+const apiUrl = import.meta.env.VITE_BASE_URL;
 
 // Generic response handler utility
 const handleResponse = async (response) => {
@@ -64,16 +64,16 @@ export const fetchLogin = createAsyncThunk(
   "user/fetchLogin",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      // Make the POST request to the login endpoint
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}login/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
-      // Handle the response
+      // Handle response
       return await handleResponse(response);
     } catch (error) {
+      console.error("Login error:", error); // Log error for debugging
       return rejectWithValue(error.message);
     }
   }
@@ -121,13 +121,16 @@ export const uploadAvatar = createAsyncThunk(
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch(`https://jobfinder.automatex.dev/api/upload/`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    const response = await fetch(
+      `https://jobfinder.automatex.dev/api/upload/`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    );
     return handleResponse(response);
   }
 );
@@ -253,8 +256,7 @@ const userSlice = createSlice({
       .addCase(uploadAvatar.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-      })
-  
+      });
   },
 });
 
